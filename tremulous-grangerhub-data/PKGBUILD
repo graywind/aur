@@ -1,0 +1,26 @@
+pkgname=tremulous-grangerhub-data
+pkgver=1.3.0
+pkgrel=1
+pkgdesc='Shared data files for tremulous'
+url='http://tremulous.net'
+arch=('any')
+license=('GPL')
+replaces=('tremulous-data')
+conflicts=('tremulous-data')
+source=("git://github.com/graywind/tremulous-data.git")
+
+_arch="${CARCH/i686/x86}"
+
+prepare() {
+  # Remove unneeded files from game directory
+  cd "${srcdir}/tremulous-data"
+  rm {CC,COPYING,SDL2.zlib,GPL,README.md}
+}
+
+package() {
+  install -dm755 $pkgdir/opt/tremulous/base/
+  cp -r tremulous-data/*.pk3 $pkgdir/opt/tremulous/base/
+  find $pkgdir -type f -exec chmod 644 {} +
+}
+
+sha256sums=('SKIP')
